@@ -2,7 +2,7 @@
   "id": 1131,
   "name": "Wando Landim",
   "type": "DRIVER",
-  "registration": "123456",
+      ,
   "vehicles": [],
   "driverTeam": {
     "id": 74
@@ -11,13 +11,11 @@
   "cpf": "60431556300",
   "status": "ACTIVE",
   "hiringType": "FIXED",
-  "licenses": [],
   "riskDriver": false,
   "integrationId": "string",
-  "license": "string",
   "licenseCategory": "string",
   "licenseExpedition": "2020-10-25T22:43:01.769Z",
   "licenseExpiration": "2020-10-25T22:43:01.769Z",
-  "licenseNationalRegister": "string",
-  "licenseRegister": "string"
+  "licenseRegister": "string",
+  "registrationCode": "string"
 }

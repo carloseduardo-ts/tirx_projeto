@@ -1,67 +1,56 @@
-import xlrd
-import requests
-from requests.auth import HTTPBasicAuth
+from functions import *
 
-def formatarData(t):
-    if len(str(t)) != 0:
-        r = xlrd.xldate_as_tuple(t, wb.datemode)
-        return str(r[0])+"-"+str(r[1])+"-"+str(r[2])+"T03:00:00Z"
-    else:
-        return ""
+def main():
+    #estrutura que será mandada para API após preenchimento
+    data = {
+        "name": "",
+        "type": "",
+        "registration": "",
+        "vehicles": [],
+        "driverTeam": {
+            "id": ""
+        },
+        "rg": "",
+        "cpf": "",
+        "status": "",
+        "hiringType": "",
+        "riskDriver": "",
+        "integrationId": "",
+        "licenseCategory": "",
+        "licenseExpedition": "",
+        "licenseExpiration": "",
+        "licenseRegister": "",
+        "registrationCode": ""
+    }
 
-base_url = "http://demo.trixlog.com/trix/"
-auth = ('carloseduardo@teste', 'carloseduardo@teste')
+    #abrindo planilha do excel
+    wb = xlrd.open_workbook('teste.xlsx')
+    ws = wb.sheet_by_index(0)
 
-### teste de requisição
-# r1 = requests.get(base_url, auth=auth)
-# print(r1)
+    #percorrendo os dados da planilha
+    for i in range(1, ws.nrows):
+        d_name = ws.cell_value(i, 2)
+        d_type = ws.cell_value(i, 6)
+        d_registration = ws.cell_value(i, 3)
+        d_driverTeam = ws.cell_value(i, 5)
+        d_rg = ws.cell_value(i, 7)
+        d_cpf = ws.cell_value(i, 8)
+        d_status = ws.cell_value(i, 13)
+        d_hiringType = ws.cell_value(i, 15)
+        d_riskDriver = ws.cell_value(i, 16)
+        d_integrationId = ws.cell_value(i, 4)
+        d_licenseCategory = ws.cell_value(i, 10)
+        d_licenseExpedition = ws.cell_value(i, 11)
+        d_licenseExpiration = ws.cell_value(i, 12)
+        d_licenseRegister = ws.cell_value(i, 9)
+        d_registrationCode = ws.cell_value(i, 14)
 
-data = {
-    "name": "",
-    "type": "",
-    "registration": "",
-    "vehicles": [],
-    "driverTeam": {
-        "id": ""
-    },
-    "rg": "",
-    "cpf": "",
-    "status": "",
-    "hiringType": "",
-    "riskDriver": "",
-    "integrationId": "",
-    "licenseCategory": "",
-    "licenseExpedition": "",
-    "licenseExpiration": "",
-    "licenseRegister": "",
-    "registrationCode": ""
-}
+        #setando os valores em data
+        data = setDados(data, wb, d_name, d_type, d_registration, d_driverTeam, d_rg, d_cpf, d_status, d_hiringType, d_riskDriver, d_integrationId, d_licenseCategory, d_licenseExpedition, d_licenseExpiration, d_licenseRegister, d_registrationCode)
+        print("\n\n",data)
 
-wb = xlrd.open_workbook('teste.xlsx')
-ws = wb.sheet_by_index(0)
-
-for i in range(1, ws.nrows):
-    data['name'] = ws.cell_value(i, 2)
-    data['type'] = ws.cell_value(i, 6)
-    data['registration'] = ws.cell_value(i, 3)
-    data['driverTeam']['id'] = ws.cell_value(i, 5)
-    data['rg'] = str(int(ws.cell_value(i, 7)))
-    data['cpf'] = str(int(ws.cell_value(i, 8)))
-    data['status'] = ws.cell_value(i, 13)
-    data['hiringType'] = ws.cell_value(i, 15)
-    data['riskDriver'] = ws.cell_value(i, 16)
-    data['integrationId'] = ws.cell_value(i, 4)
-    data['licenseCategory'] = ws.cell_value(i, 10)
-    data['licenseExpedition'] = formatarData(ws.cell_value(i, 11))
-    data['licenseExpiration'] = formatarData(ws.cell_value(i, 12))
-    data['licenseRegister'] = ws.cell_value(i, 9)
-    data['registrationCode'] = ws.cell_value(i, 14)
-    if data['licenseExpedition'] == '':
-        data.pop('licenseExpedition')
-    if data['licenseExpiration'] == '':
-        data.pop('licenseExpiration')
-
-    print("\n\n",data)
-    
-    x = requests.post(base_url+'driver', headers={'Content-Type': 'application/json'}, json=data, auth=auth)
-    print(x.content)
+        #cadastrando condutor
+        c = cadastrarDriver(data)
+        print(c.content)    
+if __name__ == '__main__':
+    main()

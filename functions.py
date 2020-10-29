@@ -1,7 +1,6 @@
 import xlrd
 import xlwt
 import requests
-from requests.auth import HTTPBasicAuth
 
 #formatar o esquema de datas para ser aceito pela API
 def formatarData(t, wb):
@@ -26,7 +25,7 @@ def setDados(data, workbook, name, type_, registration, driverTeam_id, rg, cpf, 
     data['licenseCategory'] = licenseCategory
     data['licenseExpedition'] = formatarData(licenseExpedition, workbook)
     data['licenseExpiration'] = formatarData(licenseExpiration, workbook)
-    data['licenseRegister'] = licenseRegister
+    data['licenseRegister'] = str(int(licenseRegister))
     data['registrationCode'] = registrationCode
     if data['licenseExpedition'] == '':
         data.pop('licenseExpedition')

@@ -1,6 +1,7 @@
 from functions import *
 
 def main():
+    condutoresCadastrados = []
     #estrutura que será mandada para API após preenchimento
     data = {
         "name": "",
@@ -47,10 +48,18 @@ def main():
 
         #setando os valores em data
         data = setDados(data, wb, d_name, d_type, d_registration, d_driverTeam, d_rg, d_cpf, d_status, d_hiringType, d_riskDriver, d_integrationId, d_licenseCategory, d_licenseExpedition, d_licenseExpiration, d_licenseRegister, d_registrationCode)
-        # print("\n\n",data)
+        print("\n\n",data)
 
         # cadastrando condutor
         c = cadastrarDriver(data)
-        print(c.content)    
+        if c.status_code == 200:
+            condutoresCadastrados.append(str(json.loads(c.content)['id'])+"\n")
+        print(condutoresCadastrados, c.content)
+
+        # inserindos ids dos condutores em um arquivo
+        f = open('condutores.txt', 'w')
+        f.writelines(condutoresCadastrados)
+        f.close()
+
 if __name__ == '__main__':
     main()

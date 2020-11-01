@@ -92,7 +92,8 @@ for i in range(ws.shape[0]):
     ws.hiringtype[i],
     ws.riskdriver[i]
   )
-  print(d._licenseexpedition)
   condutores.append(d)
 
-# print(condutores)
+  # for i in condutores:
+  #   x = i.cadastrar()
+  #   print(x)

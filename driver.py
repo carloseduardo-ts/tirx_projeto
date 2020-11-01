@@ -1,33 +1,42 @@
 import pandas as pd
+import numpy as np
+import requests
+import json
 
 class Driver:
   def __init__(self, organization_id, user_id, name, registration, integrationid, driverteam_id, type_, rg, cpf, licenseregister, licensecategory, licenseexpedition, licenseexpiration, status, registrationcode, hiringtype, riskdriver):
-    self._organization_id = organization_id
-    self._user_id = user_id
-    self._name = name
-    self._registration = registration 
-    self._integrationid = integrationid
-    self._driverteam_id = driverteam_id
-    self._type = type_
-    self._rg = rg
-    self._cpf = cpf
-    self._licenseregister = licenseregister
-    self._licensecategory = licensecategory
-    self._licenseexpedition = licenseexpedition if not(pd.isnull(licenseexpedition)) else ""
-    self._licenseexpiration = licenseexpiration
-    self._status = status
-    self._registrationcode = registrationcode
-    self._hiringtype = hiringtype
-    self._riskdriver = riskdriver
+    self.organization_id = organization_id
+    self.user_id = user_id #user_id if not(np.isnan(user_id)) else ""
+    self.name = name
+    self.registration = registration 
+    self.integrationId = integrationid
+    self.driverTeam = {'id': driverteam_id}
+    self.type = type_
+    self.rg = rg
+    self.cpf = cpf
+    self.licenseRegister = licenseregister #if not(np.isnan(licenseregister)) else ""
+    self.licenseCategory = licensecategory #if not(np.isnan(licensecategory)) else ""
+    self.licenseExpedition = licenseexpedition #if not(pd.isnull(licenseexpedition)) else ""
+    self.licenseExpiration = licenseexpiration #if not(pd.isnull(licenseexpedition)) else "" 
+    self.status = status
+    self.registrationCode = registrationcode #  if not(pd.isnull(registrationcode)) else ""
+    self.hiringType = hiringtype
+    self.riskDriver = riskdriver
     # print(self)
 
   def dados_dic(self):
+    aux = list(self.__dict__.keys())
+    for i in aux:
+      if pd.isna(self.__dict__[i]):
+        self.__dict__.pop(i)
     return self.__dict__
 
-  def cadastrar():
-    base_url = "http://demo.trixlog.com/trix/"
-    auth = ('carloseduardo@teste', 'carloseduardo@teste')
 
-    x = requests.post(base_url+'driver', headers={'Content-Type': 'application/json'}, json=self.dados_dic(), auth=auth)
+  def cadastrar(self):
+    base_url = "http://demo.trixlog.com/trix/" 
+    auth = ('carloseduardo@teste', 'carloseduardo@teste')
+    data = self.dados_dic()
+    print(data)
+    x = requests.post(base_url+'driver', headers={'Content-Type': 'application/json'}, json=data, auth=auth)
     return x
 

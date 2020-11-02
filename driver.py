@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import requests
-import json
+import datetime
 
 class Driver:
   def __init__(self, organization_id, user_id, name, registration, integrationid, driverteam_id, type_, rg, cpf, licenseregister, licensecategory, licenseexpedition, licenseexpiration, status, registrationcode, hiringtype, riskdriver):
@@ -35,6 +35,9 @@ class Driver:
           self.__dict__[i] = int(self.__dict__[i])
         if isinstance(self.__dict__[i], np.float64):
           self.__dict__[i] = float(self.__dict__[i]) 
+        if isinstance(self.__dict__[i], datetime.datetime):
+          print('date', i)
+          self.__dict__[i] = self.__dict__[i].to_pydatetime().strftime("%Y-%m-%dT%H:%M:%SZ")
       except:
         pass  
     return self.__dict__

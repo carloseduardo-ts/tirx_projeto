@@ -6,7 +6,7 @@ import datetime
 class Driver:
   def __init__(self, organization_id, user_id, name, registration, integrationid, driverteam_id, type_, rg, cpf, licenseregister, licensecategory, licenseexpedition, licenseexpiration, status, registrationcode, hiringtype, riskdriver):
     self.organization_id = organization_id
-    self.user_id = user_id #user_id if not(np.isnan(user_id)) else ""
+    self.user_id = user_id
     self.name = name
     self.registration = registration 
     self.integrationId = integrationid
@@ -14,16 +14,17 @@ class Driver:
     self.type = type_
     self.rg = rg
     self.cpf = cpf
-    self.licenseRegister = licenseregister #if not(np.isnan(licenseregister)) else ""
-    self.licenseCategory = licensecategory #if not(np.isnan(licensecategory)) else ""
-    self.licenseExpedition = licenseexpedition #if not(pd.isnull(licenseexpedition)) else ""
-    self.licenseExpiration = licenseexpiration #if not(pd.isnull(licenseexpedition)) else "" 
+    self.licenseRegister = licenseregister 
+    self.licenseCategory = licensecategory 
+    self.licenseExpedition = licenseexpedition 
+    self.licenseExpiration = licenseexpiration  
     self.status = status
-    self.registrationCode = registrationcode #  if not(pd.isnull(registrationcode)) else ""
+    self.registrationCode = registrationcode 
     self.hiringType = hiringtype
     self.riskDriver = riskdriver
     # print(self)
 
+  # transforma os atributos em um dicionario e os formata para tipos serializaveis para posteriormente sererm convertidos em JSON
   def dados_dic(self):
     aux = list(self.__dict__.keys())
     self.__dict__['driverTeam']['id'] = int(self.__dict__['driverTeam']['id'])
@@ -42,7 +43,7 @@ class Driver:
         pass  
     return self.__dict__
 
-
+  #Cadastra um driver
   def cadastrar(self):
     base_url = "http://demo.trixlog.com/trix/" 
     auth = ('carloseduardo@teste', 'carloseduardo@teste')

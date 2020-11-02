@@ -29,6 +29,12 @@ class Driver:
     for i in aux:
       if pd.isna(self.__dict__[i]):
         self.__dict__.pop(i)
+      try:
+        self.__dict__[i] = str(self.__dict__[i])
+      except:
+        pass
+      # self.__dict__[i] = str(self.__dict__[i]) 
+      
     return self.__dict__
 
 

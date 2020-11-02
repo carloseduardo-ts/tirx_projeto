@@ -94,6 +94,6 @@ for i in range(ws.shape[0]):
   )
   condutores.append(d)
 
-  # for i in condutores:
-  #   x = i.cadastrar()
-  #   print(x)
+# for i in condutores:
+#   x = i.cadastrar()
+# print(x)

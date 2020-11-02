@@ -26,15 +26,17 @@ class Driver:
 
   def dados_dic(self):
     aux = list(self.__dict__.keys())
+    self.__dict__['driverTeam']['id'] = int(self.__dict__['driverTeam']['id'])
     for i in aux:
       if pd.isna(self.__dict__[i]):
         self.__dict__.pop(i)
-      try:
-        self.__dict__[i] = str(self.__dict__[i])
+      try:   
+        if isinstance(self.__dict__[i], np.int64):
+          self.__dict__[i] = int(self.__dict__[i])
+        if isinstance(self.__dict__[i], np.float64):
+          self.__dict__[i] = float(self.__dict__[i]) 
       except:
-        pass
-      # self.__dict__[i] = str(self.__dict__[i]) 
-      
+        pass  
     return self.__dict__
 
 
@@ -42,7 +44,6 @@ class Driver:
     base_url = "http://demo.trixlog.com/trix/" 
     auth = ('carloseduardo@teste', 'carloseduardo@teste')
     data = self.dados_dic()
-    print(data)
     x = requests.post(base_url+'driver', headers={'Content-Type': 'application/json'}, json=data, auth=auth)
     return x
 
